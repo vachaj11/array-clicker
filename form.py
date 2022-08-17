@@ -16,16 +16,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QDial, QFrame,
-    QGroupBox, QHBoxLayout, QLabel, QMainWindow,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSlider,
-    QSpinBox, QSplitter, QTabWidget, QTextBrowser,
-    QVBoxLayout, QWidget)
+    QGridLayout, QGroupBox, QHBoxLayout, QLabel,
+    QMainWindow, QPlainTextEdit, QPushButton, QSizePolicy,
+    QSlider, QSpinBox, QSplitter, QTabWidget,
+    QTextBrowser, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1257, 655)
+        MainWindow.resize(1242, 655)
         MainWindow.setMouseTracking(False)
         icon = QIcon()
         iconThemeName = u"edit-find-replace"
@@ -328,91 +328,72 @@ class Ui_MainWindow(object):
 
         self.groupBox_8 = QGroupBox(self.tab_2)
         self.groupBox_8.setObjectName(u"groupBox_8")
+        sizePolicy.setHeightForWidth(self.groupBox_8.sizePolicy().hasHeightForWidth())
+        self.groupBox_8.setSizePolicy(sizePolicy)
         self.groupBox_8.setAlignment(Qt.AlignCenter)
-        self.horizontalLayout_3 = QHBoxLayout(self.groupBox_8)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.counter = QPushButton(self.groupBox_8)
-        self.counter.setObjectName(u"counter")
+        self.gridLayout = QGridLayout(self.groupBox_8)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.horiz = QPushButton(self.groupBox_8)
+        self.horiz.setObjectName(u"horiz")
         sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.counter.sizePolicy().hasHeightForWidth())
-        self.counter.setSizePolicy(sizePolicy5)
-        icon8 = QIcon()
-        iconThemeName = u"object-rotate-left"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon8 = QIcon.fromTheme(iconThemeName)
-        else:
-            icon8.addFile(u".", QSize(), QIcon.Normal, QIcon.Off)
-        
-        self.counter.setIcon(icon8)
-
-        self.horizontalLayout_3.addWidget(self.counter)
-
-        self.horiz = QPushButton(self.groupBox_8)
-        self.horiz.setObjectName(u"horiz")
         sizePolicy5.setHeightForWidth(self.horiz.sizePolicy().hasHeightForWidth())
         self.horiz.setSizePolicy(sizePolicy5)
-        icon9 = QIcon()
-        iconThemeName = u"object-flip-horizontal"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon9 = QIcon.fromTheme(iconThemeName)
-        else:
-            icon9.addFile(u".", QSize(), QIcon.Normal, QIcon.Off)
-        
-        self.horiz.setIcon(icon9)
 
-        self.horizontalLayout_3.addWidget(self.horiz)
+        self.gridLayout.addWidget(self.horiz, 1, 1, 1, 1)
 
         self.verti = QPushButton(self.groupBox_8)
         self.verti.setObjectName(u"verti")
         sizePolicy5.setHeightForWidth(self.verti.sizePolicy().hasHeightForWidth())
         self.verti.setSizePolicy(sizePolicy5)
-        icon10 = QIcon()
-        iconThemeName = u"object-flip-vertical"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon10 = QIcon.fromTheme(iconThemeName)
-        else:
-            icon10.addFile(u".", QSize(), QIcon.Normal, QIcon.Off)
-        
-        self.verti.setIcon(icon10)
+        self.verti.setMinimumSize(QSize(0, 35))
+        self.verti.setBaseSize(QSize(0, 50))
 
-        self.horizontalLayout_3.addWidget(self.verti)
+        self.gridLayout.addWidget(self.verti, 1, 2, 1, 1)
+
+        self.counter = QPushButton(self.groupBox_8)
+        self.counter.setObjectName(u"counter")
+        sizePolicy5.setHeightForWidth(self.counter.sizePolicy().hasHeightForWidth())
+        self.counter.setSizePolicy(sizePolicy5)
+
+        self.gridLayout.addWidget(self.counter, 0, 1, 1, 1)
 
         self.clock = QPushButton(self.groupBox_8)
         self.clock.setObjectName(u"clock")
         sizePolicy5.setHeightForWidth(self.clock.sizePolicy().hasHeightForWidth())
         self.clock.setSizePolicy(sizePolicy5)
-        icon11 = QIcon()
-        iconThemeName = u"object-rotate-right"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon11 = QIcon.fromTheme(iconThemeName)
-        else:
-            icon11.addFile(u".", QSize(), QIcon.Normal, QIcon.Off)
-        
-        self.clock.setIcon(icon11)
 
-        self.horizontalLayout_3.addWidget(self.clock)
+        self.gridLayout.addWidget(self.clock, 0, 2, 1, 1)
 
 
         self.verticalLayout_11.addWidget(self.groupBox_8)
 
-        self.groupBox_9 = QGroupBox(self.tab_2)
-        self.groupBox_9.setObjectName(u"groupBox_9")
-        self.groupBox_9.setAlignment(Qt.AlignCenter)
-        self.verticalLayout_12 = QVBoxLayout(self.groupBox_9)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.ingroup = QSpinBox(self.groupBox_9)
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.ingroup = QSpinBox(self.tab_2)
         self.ingroup.setObjectName(u"ingroup")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.ingroup.sizePolicy().hasHeightForWidth())
+        self.ingroup.setSizePolicy(sizePolicy6)
         self.ingroup.setMinimum(1)
         self.ingroup.setMaximum(6)
         self.ingroup.setSingleStep(1)
         self.ingroup.setValue(2)
 
-        self.verticalLayout_12.addWidget(self.ingroup)
+        self.horizontalLayout_3.addWidget(self.ingroup)
+
+        self.label = QLabel(self.tab_2)
+        self.label.setObjectName(u"label")
+        sizePolicy2.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy2)
+
+        self.horizontalLayout_3.addWidget(self.label)
 
 
-        self.verticalLayout_11.addWidget(self.groupBox_9)
+        self.verticalLayout_11.addLayout(self.horizontalLayout_3)
 
         self.tabWidget.addTab(self.tab_2, "")
 
@@ -426,11 +407,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.info = QTextBrowser(self.groupBox_4)
         self.info.setObjectName(u"info")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.info.sizePolicy().hasHeightForWidth())
-        self.info.setSizePolicy(sizePolicy6)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.info.sizePolicy().hasHeightForWidth())
+        self.info.setSizePolicy(sizePolicy7)
         self.info.setMinimumSize(QSize(200, 0))
         self.info.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
 
@@ -556,27 +537,30 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.groupBox_8.setTitle(QCoreApplication.translate("MainWindow", u"Transformace", None))
 #if QT_CONFIG(tooltip)
-        self.counter.setToolTip(QCoreApplication.translate("MainWindow", u"oto\u010dit proti sm\u011bru hodinov\u00fdch ru\u010di\u010dek", None))
-#endif // QT_CONFIG(tooltip)
-        self.counter.setText("")
-#if QT_CONFIG(tooltip)
         self.horiz.setToolTip(QCoreApplication.translate("MainWindow", u"zrcadlit horizont\u00e1ln\u011b", None))
 #endif // QT_CONFIG(tooltip)
-        self.horiz.setText("")
+        self.horiz.setText(QCoreApplication.translate("MainWindow", u"|", None))
 #if QT_CONFIG(tooltip)
         self.verti.setToolTip(QCoreApplication.translate("MainWindow", u"zrcadlit vertik\u00e1ln\u011b", None))
 #endif // QT_CONFIG(tooltip)
-        self.verti.setText("")
+        self.verti.setText(QCoreApplication.translate("MainWindow", u"\u2015", None))
+#if QT_CONFIG(tooltip)
+        self.counter.setToolTip(QCoreApplication.translate("MainWindow", u"oto\u010dit proti sm\u011bru hodinov\u00fdch ru\u010di\u010dek", None))
+#endif // QT_CONFIG(tooltip)
+        self.counter.setText(QCoreApplication.translate("MainWindow", u"\u2b6f", None))
 #if QT_CONFIG(tooltip)
         self.clock.setToolTip(QCoreApplication.translate("MainWindow", u"oto\u010dit po sm\u011bru hodinov\u00fdch ru\u010di\u010dek", None))
 #endif // QT_CONFIG(tooltip)
-        self.clock.setText("")
+        self.clock.setText(QCoreApplication.translate("MainWindow", u"\u2b6e", None))
 #if QT_CONFIG(tooltip)
-        self.groupBox_9.setToolTip(QCoreApplication.translate("MainWindow", u"pro zobecn\u011bn\u00ed funk\u010dnosti je mo\u017en\u00e9 nastavit po\u010det bod\u016f", None))
+        self.ingroup.setToolTip(QCoreApplication.translate("MainWindow", u"pro zobecn\u011bn\u00ed funk\u010dnosti je mo\u017en\u00e9 nastavit po\u010det bod\u016f", None))
 #endif // QT_CONFIG(tooltip)
-        self.groupBox_9.setTitle(QCoreApplication.translate("MainWindow", u"Po\u010det bod\u016f ve skupin\u011b", None))
         self.ingroup.setSuffix("")
         self.ingroup.setPrefix("")
+#if QT_CONFIG(tooltip)
+        self.label.setToolTip(QCoreApplication.translate("MainWindow", u"pro zobecn\u011bn\u00ed funk\u010dnosti je mo\u017en\u00e9 nastavit po\u010det bod\u016f", None))
+#endif // QT_CONFIG(tooltip)
+        self.label.setText(QCoreApplication.translate("MainWindow", u"po\u010det bod\u016f ve skupin\u011b", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Ostatn\u00ed", None))
 #if QT_CONFIG(tooltip)
         self.groupBox_4.setToolTip(QCoreApplication.translate("MainWindow", u"mal\u00fd n\u00e1hled do my\u0161lenkov\u00fdch proces\u016f programu", None))
