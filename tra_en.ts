@@ -9,69 +9,69 @@
         <translation>Clicker</translation>
     </message>
     <message>
-        <location filename="main.py" line="117"/>
+        <location filename="main.py" line="127"/>
         <source>==
 Načteny data z: </source>
         <translation>==
 Loaded data from: </translation>
     </message>
     <message>
-        <location filename="main.py" line="121"/>
+        <location filename="main.py" line="131"/>
         <source>Adresa vstupních dat neexistuje a data proto nebyla načtena!</source>
         <translation>No files were found on the given path and thus no data were loaded!</translation>
     </message>
     <message>
-        <location filename="main.py" line="217"/>
+        <location filename="main.py" line="270"/>
         <source>Vyberte soubor</source>
         <translation>Choose a file</translation>
     </message>
     <message>
-        <location filename="main.py" line="225"/>
+        <location filename="main.py" line="278"/>
         <source>Vyberte složku</source>
         <translation>Choose a directory</translation>
     </message>
     <message>
-        <location filename="main.py" line="255"/>
+        <location filename="main.py" line="308"/>
         <source>Přidány dříve uložené souřadnice.</source>
         <translation>Appended previously saved coordinates.</translation>
     </message>
     <message>
-        <location filename="main.py" line="259"/>
+        <location filename="main.py" line="312"/>
         <source>V dříve uloženém souboru nebyly žádné souřadnice.</source>
         <translation>No coordinates were found in the previously saved file.</translation>
     </message>
     <message>
-        <location filename="main.py" line="275"/>
+        <location filename="main.py" line="328"/>
         <source>Data NEBYLA ULOŽENA, protože daný soubor již existuje a přepisování je vypnuté.</source>
         <translation>Marked data WEREN&apos;T SAVED, because the target file already exists and overwriting is turned  of.</translation>
     </message>
     <message>
-        <location filename="main.py" line="279"/>
+        <location filename="main.py" line="332"/>
         <source>Data uložena do: </source>
         <translation>Marked data saved to: </translation>
     </message>
     <message>
-        <location filename="main.py" line="282"/>
+        <location filename="main.py" line="335"/>
         <source>Data se NEPODAŘILO ULOŽIT do cílové destinace!</source>
         <translation>Marked data WEREN&apos;T SAVED into the chosen directory (probably because there is no such directory)!</translation>
     </message>
     <message>
-        <location filename="main.py" line="350"/>
+        <location filename="main.py" line="422"/>
         <source>Zvoleny souřadnice: </source>
         <translation>Chosen coordinates: </translation>
     </message>
     <message>
-        <location filename="main.py" line="392"/>
+        <location filename="main.py" line="466"/>
         <source>Neuložená data</source>
         <translation>Unsaved data</translation>
     </message>
     <message>
-        <location filename="main.py" line="393"/>
+        <location filename="main.py" line="467"/>
         <source>Některá data nejsou uložená, přesto pokračovat?</source>
         <translation>Some marked data weren&apos;t saved, do you wish to continue?</translation>
     </message>
     <message>
-        <location filename="main.py" line="397"/>
+        <location filename="main.py" line="471"/>
         <source>Uložení přepíše již uložená data</source>
         <translation>Saving now rewrites previously saved data</translation>
     </message>
@@ -260,43 +260,97 @@ file</translation>
         <translation>Enable marking</translation>
     </message>
     <message>
-        <location filename="form.ui" line="413"/>
+        <location filename="form.ui" line="415"/>
+        <source>Barevné zobrazení</source>
+        <translation>Color depiction</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="423"/>
         <source>tady se hýbe s kontrastem</source>
         <translation>here contrast of shown data is set</translation>
     </message>
     <message>
-        <location filename="form.ui" line="416"/>
+        <location filename="form.ui" line="426"/>
         <source>Kontrast</source>
         <translation>Contrast</translation>
     </message>
     <message>
-        <location filename="form.ui" line="450"/>
+        <location filename="form.ui" line="460"/>
         <source>a tady s jasem</source>
         <translation>here brightness of show data is set</translation>
     </message>
     <message>
-        <location filename="form.ui" line="453"/>
+        <location filename="form.ui" line="463"/>
         <source>Jas</source>
         <translation>Brightness</translation>
     </message>
     <message>
-        <location filename="form.ui" line="489"/>
+        <location filename="form.ui" line="538"/>
+        <source>Ostatní</source>
+        <translation>Other</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="547"/>
         <source>změní den v noc a noc v den</source>
         <translation>inverts shown data</translation>
     </message>
     <message>
-        <location filename="form.ui" line="492"/>
-        <source>Invertovat</source>
-        <translation>Invert</translation>
+        <location filename="form.ui" line="550"/>
+        <source>Invertovat hodnoty</source>
+        <translation>Invert values</translation>
     </message>
     <message>
-        <location filename="form.ui" line="508"/>
+        <location filename="form.ui" line="560"/>
+        <source>zde se vše převrací a rotuje</source>
+        <translation>here can the data shown be rotated and mirrored</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="563"/>
+        <source>Transformace</source>
+        <translation>Transformations</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="578"/>
+        <source>otočit proti směru hodinových ručiček</source>
+        <translation>rotate counterclockwise</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="598"/>
+        <source>zrcadlit horizontálně</source>
+        <translation>mirror horizontally</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="618"/>
+        <source>zrcadlit vertikálně</source>
+        <translation>mirror vertically</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="638"/>
+        <source>otočit po směru hodinových ručiček</source>
+        <translation>rotate clockwise</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="655"/>
+        <source>pro zobecnění funkčnosti je možné nastavit počet bodů</source>
+        <translation>here the number of points in one group can be set</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="658"/>
+        <source>Počet bodů ve skupině</source>
+        <translation>Number of points in a group</translation>
+    </message>
+    <message>
+        <source>Invertovat</source>
+        <translation type="vanished">Invert</translation>
+    </message>
+    <message>
+        <location filename="form.ui" line="502"/>
         <source>umožní vybrat jednu z mnoha colormap
  moje oblíbená je možnost 3</source>
         <translation>chooses one of many possible colormaps</translation>
     </message>
     <message>
-        <location filename="form.ui" line="512"/>
+        <location filename="form.ui" line="506"/>
         <source>Zbarvení</source>
         <translation>Colormap</translation>
     </message>
@@ -311,17 +365,17 @@ file</translation>
         <translation type="vanished">Size</translation>
     </message>
     <message>
-        <location filename="form.ui" line="544"/>
+        <location filename="form.ui" line="697"/>
         <source>malý náhled do myšlenkových procesů programu</source>
         <translation>here information on what the programm is doing are shown</translation>
     </message>
     <message>
-        <location filename="form.ui" line="547"/>
+        <location filename="form.ui" line="700"/>
         <source>Konzole</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="form.ui" line="571"/>
+        <location filename="form.ui" line="724"/>
         <source>zde se poslušně hlásí všechno dění v pozadí
 (ale trochu Potěmkinovsky jen tehdy, když to běží, jak má,
  jinak je třeba sledovat Pythonovskou konzoli)</source>

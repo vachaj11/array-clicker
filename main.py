@@ -83,9 +83,14 @@ class MainWindow(QMainWindow):
         self.tab = self.ui.slider2.value()
         self.saved = True
         self.outcome = 1048576
+        self.m_rev = True
+        self.m_sou = False
+        self.m_hor = False
+        self.m_ver = True
         self.ui.slider2.setMaximum(len(self.table)-1)
         self.overwrite = False
         self.pic = np.array([[10.]])
+        self.pic_rot = np.array([[10.]])
         self.pic_tran = np.array([[100]])
         self.pic_col = QImage()
         self.pic_scal = QImage()
@@ -109,7 +114,12 @@ class MainWindow(QMainWindow):
         self.ui.loca_in.clicked.connect(self.browse_in)
         self.ui.loca_out.clicked.connect(self.browse_out)
         self.ui.reload.clicked.connect(self.reloadis)
+        self.ui.counter.clicked.connect(self.rot_co)
+        self.ui.clock.clicked.connect(self.rot_cl)
+        self.ui.verti.clicked.connect(self.mir_ve)
+        self.ui.horiz.clicked.connect(self.mir_ho)
 
+        
     @Slot()
     def load_only(self):
         try:
@@ -119,16 +129,29 @@ class MainWindow(QMainWindow):
         except:
             message = self.tr("Adresa vstupních dat neexistuje a data proto nebyla načtena!")
             self.ui.info.append(message)
+        self.transfo()
+
+    @Slot()
+    def transfo(self):
+        if self.m_sou:
+            self.pic_rot = self.pic.T
+        else:
+            self.pic_rot = self.pic
+        if self.m_hor:
+            self.pic_rot = np.fliplr(self.pic_rot)
+        if self.m_ver:
+            self.pic_rot = np.flipud(self.pic_rot)
+        self.pic_rot = np.ascontiguousarray(self.pic_rot)
         self.visage()
 
     @Slot()
     def visage(self):
-        self.pic_tran = transform(self.pic, self.turn, self.turn2)
+        self.pic_tran = transform(self.pic_rot, self.turn, self.turn2)
         self.mapping()
 
     @Slot()
     def mapping(self):
-        hei, wid = self.pic.shape
+        hei, wid = self.pic_rot.shape
         self.pic_col = QImage(np.array(self.pic_tran), wid, hei, QImage.Format_Indexed8)
         if self.ui.invert.isChecked():
             self.pic_col.invertPixels()
@@ -203,6 +226,36 @@ class MainWindow(QMainWindow):
     def upd_slide2(self, val):
         self.tab = val
         self.mapping()
+
+    @Slot()
+    def rot_cl(self):
+        if (self.m_sou+self.m_rev)%2!=0:
+            self.m_ver = not self.m_ver
+        else:
+            self.m_hor = not self.m_hor
+        self.m_sou = not self.m_sou
+        self.transfo()
+
+    @Slot()
+    def rot_co(self):
+        if (self.m_sou+self.m_rev)%2!=0:
+            self.m_hor = not self.m_hor
+        else:
+            self.m_ver = not self.m_ver
+        self.m_sou = not self.m_sou
+        self.transfo()
+
+    @Slot()
+    def mir_ve(self):
+        self.m_ver = not self.m_ver
+        self.m_rev = not self.m_rev
+        self.transfo()
+
+    @Slot()
+    def mir_ho(self):
+        self.m_hor = not self.m_hor
+        self.m_rev = not self.m_rev
+        self.transfo()
 
     @Slot()
     def zpet(self):
@@ -331,6 +384,25 @@ class MainWindow(QMainWindow):
         return QColor.fromRgb((r+128) % 256, (g+128) % 256, (b+128) % 256)
         return QColor(self.table[self.tab][ind])
 
+    def correction(self, coor):
+        if self.m_ver:
+            coor[1] = self.pic_rot.shape[0]-1-coor[1]
+        if self.m_hor:
+            coor[0] = self.pic_rot.shape[1]-1-coor[0]
+        if self.m_sou:
+            coor.reverse()
+        return coor
+
+    def recorrect(self, kor):
+        coor = list(kor)
+        if self.m_sou:
+            coor.reverse()
+        if self.m_ver:
+            coor[1] = self.pic_rot.shape[0]-1-coor[1]
+        if self.m_hor:
+            coor[0] = self.pic_rot.shape[1]-1-coor[0]
+        return coor
+
     def combine(self, col, col2):
         r, g, b, a = col.getRgb()
         R, G, B, A = col2.getRgb()
@@ -345,7 +417,7 @@ class MainWindow(QMainWindow):
             if coor.x() < X < coor.x() + coim.width() and coor.y() < Y < coor.y() + coim.height():
                 if info.button() == Qt.LeftButton:
                     sourad = [int((X-coor.x())/self.slide), int((Y-coor.y())/self.slide)]
-                    self.coord.append(sourad)
+                    self.coord.append(self.correction(sourad))
                     self.saved = False
                     self.ui.info.append(self.tr("Zvoleny souřadnice: ") + str(sourad))
                     self.coord_draw()
@@ -371,8 +443,10 @@ class MainWindow(QMainWindow):
         pen = QPen(Qt.black, 2)
         painter.setPen(pen)
         for i in range(len(self.coord)):
-            co = [self.coord[i][0]*self.slide, self.coord[i][1]*self.slide]
-            co2 = [self.coord[i-1][0]*self.slide, self.coord[i-1][1]*self.slide]
+            coor = self.recorrect(self.coord[i])
+            coor2 = self.recorrect(self.coord[i-1])
+            co = [coor[0]*self.slide, coor[1]*self.slide]
+            co2 = [coor2[0]*self.slide, coor2[1]*self.slide]
             col = self.coloord([co[0]+1,co[1]+1])
             col2 = self.coloord([co2[0]+1,co2[1]+1])
             colc = self.combine(col, col2)
