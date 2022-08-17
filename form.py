@@ -379,7 +379,7 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.ingroup.sizePolicy().hasHeightForWidth())
         self.ingroup.setSizePolicy(sizePolicy6)
         self.ingroup.setMinimum(1)
-        self.ingroup.setMaximum(6)
+        self.ingroup.setMaximum(15)
         self.ingroup.setSingleStep(1)
         self.ingroup.setValue(2)
 
@@ -429,7 +429,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

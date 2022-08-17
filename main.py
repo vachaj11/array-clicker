@@ -81,6 +81,7 @@ class MainWindow(QMainWindow):
         self.coord = []
         self.table = tables()
         self.tab = self.ui.slider2.value()
+        self.gr_si = self.ui.ingroup.value()
         self.saved = True
         self.outcome = 1048576
         self.m_rev = True
@@ -118,6 +119,7 @@ class MainWindow(QMainWindow):
         self.ui.clock.clicked.connect(self.rot_cl)
         self.ui.verti.clicked.connect(self.mir_ve)
         self.ui.horiz.clicked.connect(self.mir_ho)
+        self.ui.ingroup.valueChanged.connect(self.upd_gru)
 
         
     @Slot()
@@ -228,6 +230,11 @@ class MainWindow(QMainWindow):
         self.mapping()
 
     @Slot()
+    def upd_gru(self, val):
+        self.gr_si = val
+        self.coord_draw()
+
+    @Slot()
     def rot_cl(self):
         if (self.m_sou+self.m_rev)%2!=0:
             self.m_ver = not self.m_ver
@@ -318,9 +325,13 @@ class MainWindow(QMainWindow):
             self.address_out += path[-1:]
             self.ui.umiste_out.setPlainText(self.address_out)
         coor = []
+        coit = []
         for i in range(len(self.coord)):
-            if i != 0 and (i-1) % 2 == 0:
-                coor.append([self.coord[i-1], self.coord[i]])
+            coit.append(self.coord[i])
+            if i != 0 and (i+1) % self.gr_si == 0:
+                coor.append(coit)
+                coit = []
+        print(coor)
         coor = np.array(coor)
         location = self.address_out+name[:-4]+"_out.npy"
         if os.path.exists(location) and not self.ui.rewrite.isChecked() and not self.overwrite:
@@ -453,7 +464,7 @@ class MainWindow(QMainWindow):
             pen.setColor(col)
             painter.setPen(pen)
             painter.drawEllipse(co[0]-4, co[1]-4, 10, 10)
-            if i != 0 and (i-1) % 2 == 0:
+            if i % self.gr_si != 0:
                 pen.setColor(colc)
                 painter.setPen(pen)
                 painter.drawLine(co[0]+1, co[1]+1, co2[0]+1, co2[1]+1)

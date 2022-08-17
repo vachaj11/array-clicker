@@ -408,7 +408,7 @@ soubor</string>
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -674,7 +674,7 @@ soubor</string>
                  <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>6</number>
+                 <number>15</number>
                 </property>
                 <property name="singleStep">
                  <number>1</number>
