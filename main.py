@@ -127,7 +127,7 @@ class MainWindow(QMainWindow):
         try:
             self.pic = np.load(self.address)
             self.ui.info.append(self.tr("==\nNačteny data z: ") + str(self.address))
-            self.address_load = self.address
+            self.firstlast(0)
         except:
             message = self.tr("Adresa vstupních dat neexistuje a data proto nebyla načtena!")
             self.ui.info.append(message)
@@ -172,7 +172,6 @@ class MainWindow(QMainWindow):
     @Slot()
     def update_address(self):
         self.address = self.ui.umiste.toPlainText()
-        self.firstlast(0)
 
     @Slot()
     def update_address_out(self):
@@ -277,7 +276,6 @@ class MainWindow(QMainWindow):
         soubor = QFileDialog.getOpenFileName(self, self.tr('Vyberte soubor'), "", ftype)
         if soubor[0] != '':
             self.address = soubor[0]
-            self.firstlast(0)
             self.ui.umiste.setPlainText(self.address)
 
     @Slot()
@@ -331,7 +329,6 @@ class MainWindow(QMainWindow):
             if i != 0 and (i+1) % self.gr_si == 0:
                 coor.append(coit)
                 coit = []
-        print(coor)
         coor = np.array(coor)
         location = self.address_out+name[:-4]+"_out.npy"
         if os.path.exists(location) and not self.ui.rewrite.isChecked() and not self.overwrite:
@@ -358,7 +355,8 @@ class MainWindow(QMainWindow):
             self.ui.reload.setEnabled(False)
 
     def firstlast(self, change):
-        self.address, first, last2 = iterate_files(self.address, change)
+        self.address_load, first, last2 = iterate_files(self.address, change)
+        self.address = self.address_load
         self.ui.last.setEnabled(not first)
         self.ui.next.setEnabled(not last2)
         self.pastdata()
