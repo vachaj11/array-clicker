@@ -21,8 +21,8 @@ def parse_loc(location):
 def transform(pic, coef, coef2):
     pic = (np.log(np.expand_dims(np.nan_to_num(pic), axis=2))*(-1))**coef2
     pic = np.nan_to_num(pic, posinf=0.)
-    koe = np.average(pic)/2**6
-    pic = pic/koe/10*coef
+    koe = np.average(pic)
+    pic = pic/koe*6*coef
     pic[pic > 256] = 255.
     pic[pic < 0] = 0.
     pic = pic.astype(np.uint8)
