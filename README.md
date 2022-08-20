@@ -11,3 +11,7 @@ Run the program with:
 ```
 python3 main.py
 ```
+
+## License
+This program is available as open source under the terms of the GPL-3.0 License.
+Most of this program is based on Python Qt libraries developed by the Qt Company and published under GPL and LGPL licences.

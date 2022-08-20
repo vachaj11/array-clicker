@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (c) 2022 vachaj11
+
 import sys
 import os
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
