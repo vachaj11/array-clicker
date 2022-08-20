@@ -11,7 +11,7 @@ from colormaps import tables
 import bind
 import numpy as np
 
-
+# parses file address into a path to the directory and the name of the file
 def parse_loc(location):
     inde = 0
     for i in range(len(location)):
@@ -20,7 +20,9 @@ def parse_loc(location):
             break
     return location[:-inde+1], location[-inde+1:]
 
-
+# transforms inputed numpy array of any content into an array with only values between
+# 0 and 255 which can be then interpreted as grayscale color indicies
+# this transformation's behaviour is controlled by the parametres coef and coef2
 def transform(pic, coef, coef2):
     pic = (np.log(np.expand_dims(np.nan_to_num(pic), axis=2))*(-1))**coef2
     pic = np.nan_to_num(pic, posinf=0.)
@@ -31,7 +33,8 @@ def transform(pic, coef, coef2):
     pic = pic.astype(np.uint8)
     return pic
 
-
+# looks for any other .npy files in the same directory
+# if change != 0 then returns the address of such next or previous file found
 def iterate_files(location, change):
     path, name = parse_loc(location)
     try:
@@ -61,6 +64,8 @@ def iterate_files(location, change):
 
 class MainWindow(QMainWindow):
     def __init__(self):
+
+        #setup of all application elements
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -72,6 +77,7 @@ class MainWindow(QMainWindow):
         self.short4 = QShortcut(QKeySequence('Ctrl+S'), self)
         self.short5 = QShortcut(QKeySequence('Ctrl+R'), self)
 
+        # all variables/objects used by the program
         self.address = self.ui.umiste.toPlainText()
         self.address_out = self.ui.umiste_out.toPlainText()
         self.address_load = self.address
@@ -99,6 +105,7 @@ class MainWindow(QMainWindow):
         self.pic_col = QImage()
         self.pic_scal = QImage()
 
+        # setup of all connections between "physical" app elements and coresponding functions
         self.short.activated.connect(self.zpet)
         self.short2.activated.connect(self.update_last)
         self.short3.activated.connect(self.update_next)
@@ -124,7 +131,7 @@ class MainWindow(QMainWindow):
         self.ui.horiz.clicked.connect(self.mir_ho)
         self.ui.ingroup.valueChanged.connect(self.upd_gru)
 
-        
+    # loads picture
     @Slot()
     def load_only(self):
         try:
@@ -136,6 +143,7 @@ class MainWindow(QMainWindow):
             self.ui.info.append(message)
         self.transfo()
 
+    # transforms the input array (this is later manifested as a change in orientation of the image) 
     @Slot()
     def transfo(self):
         if self.m_sou:
@@ -149,11 +157,13 @@ class MainWindow(QMainWindow):
         self.pic_rot = np.ascontiguousarray(self.pic_rot)
         self.visage()
 
+    # further transforms the input array (brightness, contrast)
     @Slot()
     def visage(self):
         self.pic_tran = transform(self.pic_rot, self.turn, self.turn2)
         self.mapping()
 
+    # initites colormap and then translates the data stored as integers to the corresponding rgb values
     @Slot()
     def mapping(self):
         hei, wid = self.pic_rot.shape
@@ -164,6 +174,7 @@ class MainWindow(QMainWindow):
         self.pic_col.convertTo(QImage.Format_RGB32)
         self.scaling()
 
+    # scales image data so it fits the image frame
     @Slot()
     def scaling(self):
         hei = self.pic_col.height()
@@ -172,6 +183,7 @@ class MainWindow(QMainWindow):
         self.pic_scal = self.pic_col.scaledToHeight(int(hei*self.slide))
         self.coord_draw()
 
+    # various functions updating various thins on user action
     @Slot()
     def update_address(self):
         self.address = self.ui.umiste.toPlainText()
@@ -236,6 +248,8 @@ class MainWindow(QMainWindow):
         self.gr_si = val
         self.coord_draw()
 
+    # determines which operations have to be done in order for the image to be rotated
+    # and executes them
     @Slot()
     def rot_cl(self):
         if (self.m_sou+self.m_rev)%2!=0:
@@ -297,6 +311,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.picture.setCursor(Qt.ArrowCursor)
 
+    # reloads previously saved marking coordinates
     @Slot()
     def reloadis(self):
         path, name = parse_loc(self.address_load)
@@ -319,6 +334,7 @@ class MainWindow(QMainWindow):
             message = self.tr("V dříve uloženém souboru nebyly žádné souřadnice.")
             self.ui.info.append(message)
 
+    # saves marking coordinates or at least tries
     @Slot()
     def saving(self):
         path, name = parse_loc(self.address_load)
@@ -346,6 +362,7 @@ class MainWindow(QMainWindow):
                 self.ui.info.append(self.tr("Data se NEPODAŘILO ULOŽIT do cílové destinace!"))
                 self.saved = False
 
+    # looks for past data in the output directory
     def pastdata(self):
         path, name = parse_loc(self.address_load)
         adresa = self.address_out
@@ -357,6 +374,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.reload.setEnabled(False)
 
+    # looks for other .npy file in the input directory
     def firstlast(self, change):
         self.address_load, first, last2 = iterate_files(self.address, change)
         self.address = self.address_load
@@ -364,6 +382,7 @@ class MainWindow(QMainWindow):
         self.ui.next.setEnabled(not last2)
         self.pastdata()
 
+    # calculates the image scale so it matches the frame
     def get_size(self):
         pic = [self.ui.picture.size().width(), self.ui.picture.size().height()]
         ima = [self.pic_col.size().width(), self.pic_col.size().height()]
@@ -378,6 +397,7 @@ class MainWindow(QMainWindow):
             self.slide *= pic[0]/ima[0]
         return False
 
+    # chooses what color to display the marked coordinates with so it contrasts with the rest of the image
     def coloord(self, coord):
         col = self.pic_scal.pixelColor(coord[0], coord[1])
         r, g, b, a = col.getRgb()
@@ -396,6 +416,7 @@ class MainWindow(QMainWindow):
         return QColor.fromRgb((r+128) % 256, (g+128) % 256, (b+128) % 256)
         return QColor(self.table[self.tab][ind])
 
+    # corects transformations (rotation etc.) in the marked coordinates
     def correction(self, coor):
         if self.m_ver:
             coor[1] = self.pic_rot.shape[0]-1-coor[1]
@@ -405,6 +426,7 @@ class MainWindow(QMainWindow):
             coor.reverse()
         return coor
 
+    # reaccounts for rotation etc. in the marked coordinates
     def recorrect(self, kor):
         coor = list(kor)
         if self.m_sou:
@@ -415,11 +437,13 @@ class MainWindow(QMainWindow):
             coor[0] = self.pic_rot.shape[1]-1-coor[0]
         return coor
 
+    # finds the mean of two given colors
     def combine(self, col, col2):
         r, g, b, a = col.getRgb()
         R, G, B, A = col2.getRgb()
         return QColor.fromRgb(int((r+R)/2),int((g+G)/2),int((b+B)/2))
 
+    # takes a note of the marked coordinates after user clicks on the image
     def mousePressEvent(self, info):
         if self.mkmode:
             X = info.position().x()-1
@@ -436,12 +460,14 @@ class MainWindow(QMainWindow):
                 elif info.button() == Qt.RightButton:
                     self.zpet()
 
+    # checks if there are no unsaved data on closing
     def closeEvent(self, info):
         if not self.testik():
             info.ignore()
         else:
             info.accept()
 
+    # does something with scaling, i don't know anymore
     def resizeEvent(self, info):
         if str(info.__repr__())[-17:-2] == "non-spontaneous":
             return
@@ -449,6 +475,7 @@ class MainWindow(QMainWindow):
             return
         self.scaling()
 
+    # drews marked coordinates on the image
     def coord_draw(self):
         self.image = QImage(self.pic_scal)
         painter = QPainter(self.image)
@@ -473,6 +500,7 @@ class MainWindow(QMainWindow):
         self.ui.picture.setMinimumSize(0,0)
         painter.end()
 
+    # shows warning box concerning unsaved data
     def vystraha(self):
         zprava = QMessageBox()
         zprava.setWindowTitle(self.tr("Neuložená data"))
@@ -483,6 +511,7 @@ class MainWindow(QMainWindow):
         zprava.setInformativeText(self.tr("Uložení přepíše již uložená data"))
         self.outcome = zprava.exec()
 
+    # asks user what to do with unsaved data and acts on their wishes
     def testik(self):
         if not self.saved:
             self.vystraha()
@@ -499,10 +528,11 @@ class MainWindow(QMainWindow):
         self.saved = True
         return True
 
-
+# this runs it all
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+    # this takes care of translations
     path = QLibraryInfo.location(QLibraryInfo.TranslationsPath)
     translator = QTranslator(app)
     if translator.load(QLocale.system(), 'qtbase', '_', path):
@@ -517,6 +547,8 @@ if __name__ == "__main__":
     elif QLocale.system().language() != QLocale.Czech:
         translator.load(QLocale.English, 'tra', '_', path)
         app.installTranslator(translator)
+
+
     window = MainWindow()
     window.show()
 
