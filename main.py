@@ -24,13 +24,20 @@ def parse_loc(location):
 # 0 and 255 which can be then interpreted as grayscale color indicies
 # this transformation's behaviour is controlled by the parametres coef and coef2
 def transform(pic, coef, coef2):
-    pic = (np.log(np.expand_dims(np.nan_to_num(pic), axis=2))*(-1))**coef2
-    pic = np.nan_to_num(pic, posinf=0.)
-    koe = np.average(pic)
-    pic = pic/koe*6*coef
-    pic[pic > 256] = 255.
+    pic = np.nan_to_num(pic)                # replaces NaN values with 0
+    m = np.min(pic)
+    M = np.max(pic)
+    if m <= 0:
+        pic = pic - m                       # moves whole array so there are no negative numbers
+        M += -m
+    pic = pic/M                             # scales the array so i falls between 0 and 1
+    pic = (np.log(pic)*(-1))**coef2         # takes logarithm of the array and raises it to some power
+    pic = np.nan_to_num(pic, posinf=0.)     # replaces infinities with 0
+    koe = np.average(pic)                   # rescales values in the array so the average value will
+    pic = pic/koe*6*coef                    # have the median color (and also accounts for bright. sett.)
+    pic[pic > 256] = 255.                   # removes extreme values outside of the wanted range
     pic[pic < 0] = 0.
-    pic = pic.astype(np.uint8)
+    pic = pic.astype(np.uint8)              # translates to 8 bit integer format
     return pic
 
 # looks for any other .npy files in the same directory
@@ -167,7 +174,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def mapping(self):
         hei, wid = self.pic_rot.shape
-        self.pic_col = QImage(np.array(self.pic_tran), wid, hei, QImage.Format_Indexed8)
+        self.pic_col = QImage(np.array(self.pic_tran), wid, hei, wid, QImage.Format_Indexed8)
         if self.ui.invert.isChecked():
             self.pic_col.invertPixels()
         self.pic_col.setColorTable(self.table[self.tab])
