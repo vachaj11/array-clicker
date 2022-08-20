@@ -755,7 +755,25 @@ soubor</string>
   <tabstop>umiste</tabstop>
   <tabstop>with_next</tabstop>
   <tabstop>loader</tabstop>
+  <tabstop>last</tabstop>
   <tabstop>next</tabstop>
+  <tabstop>loca_out</tabstop>
+  <tabstop>umiste_out</tabstop>
+  <tabstop>rewrite</tabstop>
+  <tabstop>saver</tabstop>
+  <tabstop>reload</tabstop>
+  <tabstop>marker</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>dial_2</tabstop>
+  <tabstop>dial</tabstop>
+  <tabstop>slider2</tabstop>
+  <tabstop>invert</tabstop>
+  <tabstop>counter</tabstop>
+  <tabstop>clock</tabstop>
+  <tabstop>horiz</tabstop>
+  <tabstop>verti</tabstop>
+  <tabstop>ingroup</tabstop>
+  <tabstop>info</tabstop>
  </tabstops>
  <resources/>
  <connections/>
