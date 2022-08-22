@@ -5,7 +5,7 @@ Small app for visualization and manual marking of various data stored in numpy a
 This app is written in Python so you have to have a [Python interpreter](https://www.python.org/downloads/) installed on your machine in order to run it.
 
 The files you need to download are  [main.py](https://github.com/vachaj11/array-clicker/blob/master/main.py), [form.py](https://github.com/vachaj11/array-clicker/blob/master/form.py),  [bind.py](https://github.com/vachaj11/array-clicker/blob/master/bind.py) and [colormaps.py](https://github.com/vachaj11/array-clicker/blob/master/colormaps.py)
-the dependencies apart from the standard python libraries are PySide6 and NumPy. Install them using:
+(or just clone this repository) the dependencies apart from the standard python libraries are PySide6 and NumPy. Install them using:
 ```
 pip install PySide6 Numpy
 ```
