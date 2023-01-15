@@ -31,10 +31,10 @@ def transform(pic, coef, coef2):
         pic = pic - m                       # moves whole array so there are no negative numbers
         M += -m
     pic = pic/M                             # scales the array so i falls between 0 and 1
-    pic = (np.log(pic)*(-1))**coef2         # takes logarithm of the array and raises it to some power
+    pic = (np.log(pic)*(-1))**2             # takes logarithm of the array and raises it to some power
     pic = np.nan_to_num(pic, posinf=0.)     # replaces infinities with 0
     koe = np.average(pic)                   # rescales values in the array so the average value will
-    pic = pic/koe*6*coef                    # have the median color (and also accounts for bright. sett.)
+    pic = pic/koe*6*coef+16*(coef2-16)                    # have the median color (and also accounts for bright. sett.)
     pic[pic > 256] = 255.                   # removes extreme values outside of the wanted range
     pic[pic < 0] = 0.
     pic = pic.astype(np.uint8)              # translates to 8 bit integer format
@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
         self.address_load = self.address
         self.firstlast(0)
         self.turn = self.ui.dial.value()
-        self.turn2 = self.ui.dial_2.value()/3
+        self.turn2 = self.ui.dial_2.value()
         self.slide = 1.
         self.image = QImage()
         self.mkmode = False
@@ -242,7 +242,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def upd_turn2(self, val):
-        self.turn2 = val/3
+        self.turn2 = val
         self.visage()
 
     @Slot()
