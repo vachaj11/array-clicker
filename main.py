@@ -34,7 +34,7 @@ def transform(pic, coef, coef2):
     pic = (np.log(pic)*(-1))**2             # takes logarithm of the array and raises it to some power
     pic = np.nan_to_num(pic, posinf=0.)     # replaces infinities with 0
     koe = np.average(pic)                   # rescales values in the array so the average value will
-    pic = pic/koe*6*coef+16*(coef2-16)                    # have the median color (and also accounts for bright. sett.)
+    pic = (pic/koe*128)**(1+(coef-20)/40)+16*(coef2-16)                    # have the median color (and also accounts for bright. sett.)
     pic[pic > 256] = 255.                   # removes extreme values outside of the wanted range
     pic[pic < 0] = 0.
     pic = pic.astype(np.uint8)              # translates to 8 bit integer format
